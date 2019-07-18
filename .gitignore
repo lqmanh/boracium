@@ -81,3 +81,6 @@ dist
 
 # DynamoDB Local files
 .dynamodb/
+
+# Lock files
+*.lock
