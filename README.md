@@ -1,6 +1,6 @@
 [![](https://img.shields.io/github/license/lqmanh/netsnmp.svg?style=flat-square)](https://github.com/lqmanh/netsnmp)
 
-# `netsnmp`
+# netsnmp
 
 > Minimalistic SNMP client for Node.js
 
@@ -9,6 +9,7 @@
 ### Requirements
 
 - Node.js >= 8.0.0
+- [net-snmp](http://www.net-snmp.org)
 
 ### Instructions
 
