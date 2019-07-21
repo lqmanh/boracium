@@ -1,10 +1,10 @@
 {
-  "name": "netsnmp",
+  "name": "@lqmanh/netsnmp",
   "description": "Minimalistic SNMP client for Node.js",
   "license": "MIT",
   "author": "Luong Quang Manh",
   "repository": "github:lqmanh/netsnmp",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
