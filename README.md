@@ -1,5 +1,5 @@
 [![](https://img.shields.io/github/license/lqmanh/netsnmp.svg?style=flat-square)](https://github.com/lqmanh/netsnmp)
-[![](https://img.shields.io/npm/v/netsnmp.svg?style=flat-square)](https://www.npmjs.com/package/netsnmp)
+[![](https://img.shields.io/npm/v/@lqmanh/netsnmp.svg?style=flat-square)](https://www.npmjs.com/package/@lqmanh/netsnmp)
 
 # netsnmp
 
@@ -17,13 +17,13 @@
 #### With `npm`
 
 ```bash
-$ npm i netsnmp
+$ npm i @lqmanh/netsnmp
 ```
 
 #### With `yarn`
 
 ```bash
-$ yarn add netsnmp
+$ yarn add @lqmanh/netsnmp
 ```
 
 ## USAGE
