@@ -1,9 +1,9 @@
 {
-  "name": "@lqmanh/netsnmp",
+  "name": "@lqmanh/boracium",
   "description": "Minimalistic SNMP client for Node.js",
   "license": "MIT",
   "author": "Luong Quang Manh",
-  "repository": "github:lqmanh/netsnmp",
+  "repository": "github:lqmanh/boracium",
   "version": "0.1.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

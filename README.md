@@ -1,11 +1,11 @@
-[![](https://img.shields.io/github/license/lqmanh/netsnmp.svg?style=flat-square)](https://github.com/lqmanh/netsnmp)
-[![](https://img.shields.io/npm/v/@lqmanh/netsnmp.svg?style=flat-square)](https://www.npmjs.com/package/@lqmanh/netsnmp)
+[![](https://img.shields.io/github/license/lqmanh/boracium.svg?style=flat-square)](https://github.com/lqmanh/boracium)
+[![](https://img.shields.io/npm/v/@lqmanh/boracium.svg?style=flat-square)](https://www.npmjs.com/package/@lqmanh/boracium)
 
-# netsnmp
+# BORACIUM
 
 > Minimalistic SNMP client for Node.js
 
-## INSTALLATION
+## Installation
 
 ### Requirements
 
@@ -17,17 +17,17 @@
 #### With `npm`
 
 ```bash
-$ npm i @lqmanh/netsnmp
+$ npm i @lqmanh/boracium
 ```
 
 #### With `yarn`
 
 ```bash
-$ yarn add @lqmanh/netsnmp
+$ yarn add @lqmanh/boracium
 ```
 
-## USAGE
+## Usage
 
-## CHANGELOG
+## Changelog
 
-Read more [here](https://github.com/lqmanh/netsnmp/blob/master/CHANGELOG.md).
+Read more [here](https://github.com/lqmanh/boracium/blob/master/CHANGELOG.md).
