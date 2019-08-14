@@ -9,8 +9,8 @@
 
 ### Requirements
 
-- Node.js >= 8.0.0
-- [net-snmp](http://www.net-snmp.org)
+- Node.js >= 10.0.0
+- [net-snmp](http://www.net-snmp.org) >= 5.7
 
 ### Instructions
 
@@ -26,7 +26,22 @@ $ npm i @lqmanh/boracium
 $ yarn add @lqmanh/boracium
 ```
 
+## Features
+
+- [x] Send GET requests
+- [x] Send GETNEXT requests
+- [x] Send GETBULK requests
+- [x] Translate OIDs from textual type to numeric or full type
+- [ ] Support SNMP v3
+- [ ] Send SET requests
+- [ ] Receive TRAP and INFORM
+- [ ] MIB parsing
+- [ ] Generate MIB tree
+- [ ] Rewrite with binding to C?
+
 ## Usage
+
+_\<Work in progress>_
 
 ## Changelog
 
