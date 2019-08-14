@@ -4,7 +4,7 @@ import { VarbindInterface } from './varbind'
 
 type ParsedSnmpResponse = { textualOID: string; type: string | null; value: string }
 type SnmpGetBinary = 'snmpget' | 'snmpgetnext' | 'snmpbulkget'
-type OIDType = 'numericOID' | 'fullOID'
+type OIDType = 'textualOID' | 'numericOID' | 'fullOID'
 
 const parseSnmpResponse = (res: string): ParsedSnmpResponse => {
   const found = res.match(/(.+::.+) = (([A-Za-z0-9]+): )?(.+)/)
@@ -21,7 +21,7 @@ const parseSnmpResponse = (res: string): ParsedSnmpResponse => {
 export default class SnmpClient {
   private readonly options: SnmpClientOptions
 
-  constructor(options: SnmpClientOptionsInterface) {
+  constructor(options: SnmpClientOptionsInterface = {}) {
     this.options = new SnmpClientOptions(options)
   }
 
@@ -62,11 +62,12 @@ export default class SnmpClient {
   }
 
   public async translate(oid: string, to: OIDType): Promise<string> {
-    let opt: string
+    let opt = ''
     if (to === 'numericOID') opt = '-On'
     else if (to === 'fullOID') opt = '-Of'
+    // else if (to === 'textualOID') opt = ''
 
-    const { stdout, stderr } = await execa('snmptranslate', [opt, oid])
+    const { stdout, stderr } = await execa.command(`snmptranslate ${opt} ${oid}`)
 
     if (stderr) throw new Error(stderr)
 

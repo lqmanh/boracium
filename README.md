@@ -31,7 +31,7 @@ $ yarn add @lqmanh/boracium
 - [x] Send GET requests
 - [x] Send GETNEXT requests
 - [x] Send GETBULK requests
-- [x] Translate OIDs from textual type to numeric or full type
+- [x] Translate OIDs between textual, numeric and full type
 - [ ] Support SNMP v3
 - [ ] Send SET requests
 - [ ] Receive TRAP and INFORM
