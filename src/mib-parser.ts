@@ -1,6 +1,6 @@
 import execa from 'execa'
 
-type OIDType = 'textualOID' | 'numericOID' | 'fullOID'
+export type OIDType = 'textualOID' | 'numericOID' | 'fullOID'
 
 export default class MibParser {
   constructor() {}
