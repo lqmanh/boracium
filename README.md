@@ -1,7 +1,7 @@
 [![](https://img.shields.io/github/license/lqmanh/boracium.svg?style=flat-square)](https://github.com/lqmanh/boracium)
 [![](https://img.shields.io/npm/v/@lqmanh/boracium.svg?style=flat-square)](https://www.npmjs.com/package/@lqmanh/boracium)
 
-# BORACIUM
+# Boracium | B
 
 > Minimalistic SNMP client for Node.js
 

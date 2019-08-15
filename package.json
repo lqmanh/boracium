@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "Luong Quang Manh",
   "repository": "github:lqmanh/boracium",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -15,10 +15,10 @@
     "prepublishOnly": "rm -rf dist && yarn build"
   },
   "dependencies": {
-    "execa": "^2.0.3"
+    "execa": "^2.0.4"
   },
   "devDependencies": {
-    "@types/node": "^12.7.1",
+    "@types/node": "^12.7.2",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "eslint": "^6.1.0",

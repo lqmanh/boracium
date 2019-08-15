@@ -1,11 +1,11 @@
 import execa from 'execa'
 
-export type OIDType = 'textualOID' | 'numericOID' | 'fullOID'
+export type OIDFormat = 'textualOID' | 'numericOID' | 'fullOID'
 
 export default class MibParser {
   constructor() {}
 
-  public async translate(oid: string, to: OIDType): Promise<string> {
+  public async translate(oid: string, to: OIDFormat): Promise<string> {
     let opt = ''
     if (to === 'numericOID') opt = '-On'
     else if (to === 'fullOID') opt = '-Of'
