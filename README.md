@@ -28,11 +28,11 @@ $ yarn add @lqmanh/boracium
 
 ## Features
 
+- [x] Support SNMP v1, v2c and v3
 - [x] Send GET requests
 - [x] Send GETNEXT requests
 - [x] Send GETBULK requests
 - [x] Translate OIDs between textual, numeric and full type
-- [ ] Support SNMP v3
 - [ ] Send SET requests
 - [ ] Receive TRAP and INFORM
 - [ ] MIB parsing

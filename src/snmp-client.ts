@@ -1,10 +1,18 @@
 import execa from 'execa'
-import { SnmpClientOptions, SnmpClientOptionsInterface } from './options'
+import {
+  SnmpClientOptions,
+  SnmpClientOptionsInterface
+} from './options/snmp-client-options'
 import { VarbindInterface } from './varbind'
 import MibParser from './mib-parser'
 
-type ParsedSnmpResponse = { textualOID: string; type: string | null; value: string }
-type SnmpGetBinary = 'snmpget' | 'snmpgetnext' | 'snmpbulkget'
+export interface ParsedSnmpResponse {
+  textualOID: string
+  type: string | null
+  value: string
+}
+
+export type SnmpGetBinary = 'snmpget' | 'snmpgetnext' | 'snmpbulkget'
 
 const parseSnmpResponse = (res: string): ParsedSnmpResponse => {
   const found = res.match(/(.+::.+) = (([A-Za-z0-9]+): )?(.+)/)
@@ -40,14 +48,7 @@ export default class SnmpClient {
   }
 
   private async getWith(binary: SnmpGetBinary, oid: string): Promise<VarbindInterface[]> {
-    const { stdout, stderr } = await execa(binary, [
-      '-v',
-      this.options.version,
-      '-c',
-      this.options.community,
-      `${this.options.host}:${this.options.port}`,
-      oid
-    ])
+    const { stdout, stderr } = await execa(binary, this.getBinaryArgs(oid))
 
     if (stderr) throw new Error(stderr)
 
@@ -61,5 +62,41 @@ export default class SnmpClient {
     })
 
     return Promise.all(varbindPromises)
+  }
+
+  private getBinaryArgs(oid: string): string[] {
+    const agent = `${this.options.host}:${this.options.port}`
+
+    // yes, linter is too dumb to use this.options.version !== '3'
+    if (['1', '2c'].includes(this.options.version))
+      return ['-v', this.options.version, '-c', this.options.community, agent, oid]
+
+    const {
+      username,
+      authPassword,
+      authProtocol,
+      privPassword,
+      privProtocol,
+      securityLevel
+    } = this.options.user
+
+    return [
+      '-v',
+      '3',
+      '-u',
+      username,
+      '-A',
+      authPassword,
+      '-a',
+      authProtocol,
+      '-X',
+      privPassword,
+      '-x',
+      privProtocol,
+      '-l',
+      securityLevel,
+      agent,
+      oid
+    ]
   }
 }
