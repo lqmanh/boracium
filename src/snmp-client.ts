@@ -1,10 +1,10 @@
 import execa from 'execa'
 import { SnmpClientOptions, SnmpClientOptionsInterface } from './options'
 import { VarbindInterface } from './varbind'
+import MibParser from './mib-parser'
 
 type ParsedSnmpResponse = { textualOID: string; type: string | null; value: string }
 type SnmpGetBinary = 'snmpget' | 'snmpgetnext' | 'snmpbulkget'
-type OIDType = 'textualOID' | 'numericOID' | 'fullOID'
 
 const parseSnmpResponse = (res: string): ParsedSnmpResponse => {
   const found = res.match(/(.+::.+) = (([A-Za-z0-9]+): )?(.+)/)
@@ -20,9 +20,11 @@ const parseSnmpResponse = (res: string): ParsedSnmpResponse => {
 
 export default class SnmpClient {
   private readonly options: SnmpClientOptions
+  private readonly mibParser: MibParser
 
   constructor(options: SnmpClientOptionsInterface = {}) {
     this.options = new SnmpClientOptions(options)
+    this.mibParser = new MibParser()
   }
 
   public get(oid: string): Promise<VarbindInterface[]> {
@@ -52,25 +54,12 @@ export default class SnmpClient {
     const varbindPromises = stdout.split('\n').map(async (snmpRes) => {
       const { textualOID, type, value } = parseSnmpResponse(snmpRes)
       const [numericOID, fullOID] = await Promise.all([
-        this.translate(textualOID, 'numericOID'),
-        this.translate(textualOID, 'fullOID')
+        this.mibParser.translate(textualOID, 'numericOID'),
+        this.mibParser.translate(textualOID, 'fullOID')
       ])
       return { numericOID, textualOID, fullOID, type, value }
     })
 
     return Promise.all(varbindPromises)
-  }
-
-  public async translate(oid: string, to: OIDType): Promise<string> {
-    let opt = ''
-    if (to === 'numericOID') opt = '-On'
-    else if (to === 'fullOID') opt = '-Of'
-    // else if (to === 'textualOID') opt = ''
-
-    const { stdout, stderr } = await execa.command(`snmptranslate ${opt} ${oid}`)
-
-    if (stderr) throw new Error(stderr)
-
-    return stdout
   }
 }
