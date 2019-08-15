@@ -1,3 +1,4 @@
+import assert from 'assert'
 import User from '../user'
 
 export type SnmpVersion = '1' | '2c' | '3'
@@ -19,5 +20,10 @@ export class SnmpClientOptions implements SnmpClientOptionsInterface {
 
   constructor(options: SnmpClientOptionsInterface) {
     Object.assign(this, options)
+
+    // yes, linter is too dumb to use this.options.version !== '3'
+    if (['1', '2c'].includes(this.version))
+      assert(this.community, 'Community not provided when using SNMP v1 and v2c')
+    else assert(this.user, 'User not provided when using SNMP v3')
   }
 }
