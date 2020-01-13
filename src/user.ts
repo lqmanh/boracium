@@ -1,11 +1,5 @@
-import {
-  UserOptions,
-  UserOptionsInterface,
-  AuthProtocol,
-  PrivProtocol
-} from './options/user-options'
-
-export type SecurityLevel = 'noAuthNoPriv' | 'authNoPriv' | 'authPriv'
+import { UserOptions, UserOptionsInterface } from './options/user-options'
+import { SecurityLevel, AuthProtocol, PrivProtocol } from './types'
 
 export default class User {
   public readonly username: string

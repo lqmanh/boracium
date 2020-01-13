@@ -1,7 +1,6 @@
 import assert from 'assert'
 import User from '../user'
-
-export type SnmpVersion = '1' | '2c' | '3'
+import { SnmpVersion } from '../types'
 
 export interface SnmpClientOptionsInterface {
   host?: string

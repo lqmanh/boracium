@@ -3,15 +3,19 @@ import {
   SnmpClientOptions,
   SnmpClientOptionsInterface
 } from './options/snmp-client-options'
-import { VarbindInterface } from './varbind'
+import { VarbindInterface, SnmpGetBinary, ParsedSnmpResponse } from './types'
 import MibParser from './mib-parser'
 
-export type SnmpGetBinary = 'snmpget' | 'snmpgetnext' | 'snmpbulkget'
+const parseSnmpResponse = (res: string): ParsedSnmpResponse => {
+  const found = res.match(/(.+::.+) = (([A-Za-z0-9]+): )?(.+)/)
 
-export interface ParsedSnmpResponse {
-  textualOID: string
-  type: string | null
-  value: string
+  if (!found) throw new Error('Invalid SNMP response')
+
+  return {
+    textualOID: found[1],
+    type: found[3] || null,
+    value: found[4]
+  }
 }
 
 export default class SnmpClient {
@@ -86,17 +90,5 @@ export default class SnmpClient {
       agent,
       oid
     ]
-  }
-}
-
-const parseSnmpResponse = (res: string): ParsedSnmpResponse => {
-  const found = res.match(/(.+::.+) = (([A-Za-z0-9]+): )?(.+)/)
-
-  if (!found) throw new Error('Invalid SNMP response')
-
-  return {
-    textualOID: found[1],
-    type: found[3] || null,
-    value: found[4]
   }
 }

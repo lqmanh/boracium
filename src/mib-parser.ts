@@ -1,10 +1,7 @@
 import execa from 'execa'
-
-export type OIDFormat = 'textualOID' | 'numericOID' | 'fullOID'
+import { OIDFormat } from './types'
 
 export default class MibParser {
-  constructor() {}
-
   public async translate(oid: string, to: OIDFormat): Promise<string> {
     let opt = ''
     if (to === 'numericOID') opt = '-On'

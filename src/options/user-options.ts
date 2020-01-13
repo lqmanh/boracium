@@ -1,5 +1,4 @@
-export type AuthProtocol = 'MD5' | 'SHA' | 'SHA-512' | 'SHA-384' | 'SHA-256' | 'SHA-224'
-export type PrivProtocol = 'DES' | 'AES'
+import { AuthProtocol, PrivProtocol } from '../types'
 
 export interface UserOptionsInterface {
   authPassword?: string
