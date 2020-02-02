@@ -37,7 +37,6 @@ $ yarn add @lqmanh/boracium
 - [ ] Receive TRAP and INFORM
 - [ ] MIB parsing
 - [ ] Generate MIB tree
-- [ ] Rewrite with binding to C?
 
 ## Usage
 
