@@ -9,11 +9,10 @@ import { parseSnmpResponse } from './utils'
 
 export default class SnmpClient {
   private readonly options: SnmpClientOptions
-  private readonly mibParser: MibParser
+  private readonly mibParser = new MibParser()
 
   constructor(options: SnmpClientOptionsInterface = {}) {
     this.options = new SnmpClientOptions(options)
-    this.mibParser = new MibParser()
   }
 
   public get(oid: string): Promise<VarbindInterface[]> {

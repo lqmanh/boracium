@@ -11,7 +11,7 @@ export interface SnmpClientOptionsInterface {
 }
 
 export class SnmpClientOptions implements SnmpClientOptionsInterface {
-  public readonly host = '127.0.0.1'
+  public readonly host = 'localhost'
   public readonly port = 161
   public readonly version = '2c'
   public readonly community = 'public'
