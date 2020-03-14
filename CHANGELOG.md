@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v1.0.0
+
+### Features
+
+- Require Node.js >= 10
+- Support trap listening via `TrapHandler`
+- Start writing examples
+
 ## v0.3.0
 
 ### Features
