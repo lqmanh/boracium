@@ -33,9 +33,8 @@ $ yarn add @lqmanh/boracium
 - [x] Send GETNEXT requests
 - [x] Send GETBULK requests
 - [x] Translate OIDs between textual, numeric and full type
+- [x] Receive TRAP and INFORM messages
 - [ ] Send SET requests
-- [ ] Receive TRAP and INFORM
-- [ ] MIB parsing
 - [ ] Generate MIB tree
 
 ## Usage

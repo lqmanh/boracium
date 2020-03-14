@@ -3,13 +3,11 @@ import {
   SnmpClientOptions,
   SnmpClientOptionsInterface
 } from './options/snmp-client-options'
-import { VarbindInterface, SnmpGetBinary } from './types'
-import MibParser from './mib-parser'
-import { parseSnmpResponse } from './utils'
+import { SnmpGetBinary, VarbindInterface } from './types'
+import { parseSnmpResponse, toVarbind } from './utils'
 
 export default class SnmpClient {
   private readonly options: SnmpClientOptions
-  private readonly mibParser = new MibParser()
 
   constructor(options: SnmpClientOptionsInterface = {}) {
     this.options = new SnmpClientOptions(options)
@@ -32,16 +30,14 @@ export default class SnmpClient {
 
     if (stderr) throw new Error(stderr)
 
-    const varbindPromises = stdout.split('\n').map(async (snmpRes) => {
-      const { textualOID, type, value } = parseSnmpResponse(snmpRes)
-      const [numericOID, fullOID] = await Promise.all([
-        this.mibParser.translate(textualOID, 'numericOID'),
-        this.mibParser.translate(textualOID, 'fullOID')
-      ])
-      return { numericOID, textualOID, fullOID, type, value }
-    })
+    const varbinds = stdout.split('\n').map(
+      (snmpRes): Promise<VarbindInterface> => {
+        const { textualOID, type, value } = parseSnmpResponse(snmpRes)
+        return toVarbind(textualOID, value, type)
+      }
+    )
 
-    return Promise.all(varbindPromises)
+    return Promise.all(varbinds)
   }
 
   private getBinaryArgs(oid: string): string[] {
