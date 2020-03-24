@@ -23,3 +23,23 @@ export interface VarbindInterface {
   type: string
   value: string
 }
+
+export interface RawTrapMessage {
+  remote_hostname: string
+  transport_address: {
+    protocol: string
+    remote_address: string
+    local_address: string
+  }
+  varbinds: { oid: string; value: string }[]
+}
+
+export interface ParsedTrapMessage {
+  remoteHostname: string
+  transportAddress: {
+    protocol: string
+    remoteAddress: string
+    localAddress: string
+  }
+  varbinds: VarbindInterface[]
+}
