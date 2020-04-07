@@ -9,7 +9,7 @@
 
 ### Requirements
 
-- Node.js >= 10.0.0
+- Node.js >= 10
 - [net-snmp](http://www.net-snmp.org) >= 5.7
 
 ### Instructions

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.1.0
+
+### Features
+
+- `TrapHandler` supports serverless mode
+
 ## v1.0.0
 
 ### Features
