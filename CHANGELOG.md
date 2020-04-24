@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.2.0
+
+### Features
+
+- Add `RawTrapMessage.timestamp` and `ParsedTrapMessage.timestamp`
+- Export everything under main entry
+
 ## v1.1.0
 
 ### Features
