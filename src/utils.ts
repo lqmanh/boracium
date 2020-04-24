@@ -1,4 +1,4 @@
-import MibParser from './mib-parser'
+import { MibParser } from './mib-parser'
 import { ParsedSnmpResponse, VarbindInterface } from './types'
 
 export const parseSnmpResponse = (res: string): ParsedSnmpResponse => {
@@ -9,7 +9,7 @@ export const parseSnmpResponse = (res: string): ParsedSnmpResponse => {
   return {
     textualOID: found[1],
     type: found[3] || '',
-    value: found[4]
+    value: found[4],
   }
 }
 
@@ -22,7 +22,7 @@ export const toVarbind = async (
   const [numericOID, textualOID, fullOID] = await Promise.all([
     mibParser.translate(oid, 'numericOID'),
     mibParser.translate(oid, 'textualOID'),
-    mibParser.translate(oid, 'fullOID')
+    mibParser.translate(oid, 'fullOID'),
   ])
   return { numericOID, textualOID, fullOID, type, value }
 }

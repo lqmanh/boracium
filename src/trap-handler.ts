@@ -1,13 +1,15 @@
 import { EventEmitter } from 'events'
 import fastify, { FastifyInstance } from 'fastify'
+import { TrapHandlerOptions } from './options'
 import {
-  TrapHandlerOptions,
+  ParsedTrapMessage,
+  RawTrapMessage,
   TrapHandlerOptionsInterface,
-} from './options/trap-handler-options'
-import { ParsedTrapMessage, RawTrapMessage, VarbindInterface } from './types'
+  VarbindInterface,
+} from './types'
 import { toVarbind } from './utils'
 
-export default class TrapHandler extends EventEmitter {
+export class TrapHandler extends EventEmitter {
   private readonly options: TrapHandlerOptions
   private readonly server?: FastifyInstance
 

@@ -1,7 +1,7 @@
-import { UserOptions, UserOptionsInterface } from './options/user-options'
-import { SecurityLevel, AuthProtocol, PrivProtocol } from './types'
+import { UserOptions } from './options'
+import { AuthProtocol, PrivProtocol, SecurityLevel, UserOptionsInterface } from './types'
 
-export default class User {
+export class User {
   public readonly username: string
   private readonly options: UserOptions
 

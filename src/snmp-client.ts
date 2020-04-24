@@ -1,12 +1,9 @@
 import execa from 'execa'
-import {
-  SnmpClientOptions,
-  SnmpClientOptionsInterface
-} from './options/snmp-client-options'
-import { SnmpGetBinary, VarbindInterface } from './types'
+import { SnmpClientOptions } from './options'
+import { SnmpClientOptionsInterface, SnmpGetBinary, VarbindInterface } from './types'
 import { parseSnmpResponse, toVarbind } from './utils'
 
-export default class SnmpClient {
+export class SnmpClient {
   private readonly options: SnmpClientOptions
 
   constructor(options: SnmpClientOptionsInterface = {}) {
@@ -53,7 +50,7 @@ export default class SnmpClient {
       authProtocol,
       privPassword,
       privProtocol,
-      securityLevel
+      securityLevel,
     } = this.options.user
 
     return [
@@ -72,7 +69,7 @@ export default class SnmpClient {
       '-l',
       securityLevel,
       agent,
-      oid
+      oid,
     ]
   }
 }

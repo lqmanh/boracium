@@ -1,3 +1,5 @@
+import { User } from './user'
+
 export type AuthProtocol = 'MD5' | 'SHA' | 'SHA-512' | 'SHA-384' | 'SHA-256' | 'SHA-224'
 
 export type OIDFormat = 'textualOID' | 'numericOID' | 'fullOID'
@@ -44,4 +46,25 @@ export interface ParsedTrapMessage {
   }
   varbinds: VarbindInterface[]
   timestamp: Date
+}
+
+export interface SnmpClientOptionsInterface {
+  host?: string
+  port?: number
+  version?: SnmpVersion
+  community?: string
+  user?: User
+}
+
+export interface TrapHandlerOptionsInterface {
+  serverless?: boolean
+  host?: string
+  port?: number
+}
+
+export interface UserOptionsInterface {
+  authPassword?: string
+  authProtocol?: AuthProtocol
+  privPassword?: string
+  privProtocol?: PrivProtocol
 }

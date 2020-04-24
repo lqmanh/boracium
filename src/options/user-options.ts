@@ -1,11 +1,4 @@
-import { AuthProtocol, PrivProtocol } from '../types'
-
-export interface UserOptionsInterface {
-  authPassword?: string
-  authProtocol?: AuthProtocol
-  privPassword?: string
-  privProtocol?: PrivProtocol
-}
+import { UserOptionsInterface } from '../types'
 
 export class UserOptions implements UserOptionsInterface {
   public readonly authPassword = ''

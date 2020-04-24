@@ -1,14 +1,6 @@
 import assert from 'assert'
-import User from '../user'
-import { SnmpVersion } from '../types'
-
-export interface SnmpClientOptionsInterface {
-  host?: string
-  port?: number
-  version?: SnmpVersion
-  community?: string
-  user?: User
-}
+import { SnmpClientOptionsInterface } from '../types'
+import { User } from '../user'
 
 export class SnmpClientOptions implements SnmpClientOptionsInterface {
   public readonly host = 'localhost'
