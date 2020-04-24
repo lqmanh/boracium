@@ -32,6 +32,7 @@ export interface RawTrapMessage {
     local_address: string
   }
   varbinds: { oid: string; value: string }[]
+  timestamp: string
 }
 
 export interface ParsedTrapMessage {
@@ -42,4 +43,5 @@ export interface ParsedTrapMessage {
     localAddress: string
   }
   varbinds: VarbindInterface[]
+  timestamp: Date
 }

@@ -34,10 +34,12 @@ export default class TrapHandler extends EventEmitter {
 
   public async parse(message: RawTrapMessage): Promise<ParsedTrapMessage> {
     const remoteHostname = message['remote_hostname']
+
     const transportAddress = message['transport_address']
     const protocol = transportAddress['protocol']
     const remoteAddress = transportAddress['remote_address']
     const localAddress = transportAddress['local_address']
+
     const varbinds = await Promise.all(
       message.varbinds.map(
         (varbind): Promise<VarbindInterface> => {
@@ -46,10 +48,14 @@ export default class TrapHandler extends EventEmitter {
         }
       )
     )
+
+    const timestamp = new Date(message['timestamp'])
+
     return {
       remoteHostname,
       transportAddress: { protocol, remoteAddress, localAddress },
       varbinds,
+      timestamp,
     }
   }
 }
