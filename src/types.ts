@@ -2,12 +2,6 @@ export type AuthProtocol = 'MD5' | 'SHA' | 'SHA-512' | 'SHA-384' | 'SHA-256' | '
 
 export type OIDFormat = 'textualOID' | 'numericOID' | 'fullOID'
 
-export interface ParsedSnmpResponse {
-  textualOID: string
-  type?: string
-  value: string
-}
-
 export type PrivProtocol = 'DES' | 'AES'
 
 export type SecurityLevel = 'noAuthNoPriv' | 'authNoPriv' | 'authPriv'
@@ -15,6 +9,12 @@ export type SecurityLevel = 'noAuthNoPriv' | 'authNoPriv' | 'authPriv'
 export type SnmpGetBinary = 'snmpget' | 'snmpgetnext' | 'snmpbulkget' | 'snmpwalk'
 
 export type SnmpVersion = '1' | '2c' | '3'
+
+export interface RawVarbindInterface {
+  oid: string
+  type: string
+  value: string
+}
 
 export interface VarbindInterface {
   numericOID: string

@@ -1,10 +1,11 @@
 import { EventEmitter } from 'events'
 import fastify, { FastifyInstance } from 'fastify'
+import { MibParser } from './mib-parser'
 import { TrapHandlerOptions, TrapHandlerOptionsInterface } from './options'
 import { ParsedTrapMessage, RawTrapMessage, VarbindInterface } from './types'
-import { toVarbind } from './utils'
 
 export class TrapHandler extends EventEmitter {
+  private readonly mibParser = new MibParser()
   private readonly options: TrapHandlerOptions
   private readonly server?: FastifyInstance
 
@@ -41,7 +42,7 @@ export class TrapHandler extends EventEmitter {
       message.varbinds.map(
         (varbind): Promise<VarbindInterface> => {
           const { oid, value } = varbind
-          return toVarbind(oid, value, '')
+          return this.mibParser.parseRawVarbind({ oid, type: '', value })
         }
       )
     )

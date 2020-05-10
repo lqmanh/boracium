@@ -1,14 +1,15 @@
 import execa from 'execa'
+import { MibParser } from './mib-parser'
 import {
   SnmpClientGetWithOptions,
   SnmpClientGetWithOptionsInterface,
   SnmpClientOptions,
   SnmpClientOptionsInterface,
 } from './options'
-import { ParsedSnmpResponse, SnmpGetBinary, VarbindInterface } from './types'
-import { toVarbind } from './utils'
+import { RawVarbindInterface, SnmpGetBinary, VarbindInterface } from './types'
 
 export class SnmpClient {
+  private readonly mibParser = new MibParser()
   private readonly options: SnmpClientOptions
 
   constructor(options: SnmpClientOptionsInterface = {}) {
@@ -41,24 +42,23 @@ export class SnmpClient {
 
     if (stderr) throw new Error(stderr)
 
-    const varbindPromises = stdout.split('\n').map(
-      (snmpRes): Promise<VarbindInterface> => {
-        const { textualOID, type, value } = this.parseSnmpResponse(snmpRes)
-
-        if (!autoParse) {
-          return Promise.resolve({
-            numericOID: '',
-            textualOID,
-            fullOID: '',
-            type,
-            value,
-          })
+    const rawVarbinds = this.parseResponse(stdout)
+    if (!autoParse) {
+      return rawVarbinds.map((rawVarbind) => {
+        const { oid, type, value } = rawVarbind
+        return {
+          numericOID: '',
+          textualOID: oid, // we know OID got from this.parseResponse() is textual OID
+          fullOID: '',
+          type,
+          value,
         }
-        return toVarbind(textualOID, value, type)
-      }
-    )
-
-    return Promise.all(varbindPromises)
+      })
+    } else {
+      return Promise.all(
+        rawVarbinds.map((rawVarbind) => this.mibParser.parseRawVarbind(rawVarbind))
+      )
+    }
   }
 
   private getBinaryArgs(oid: string): string[] {
@@ -92,15 +92,29 @@ export class SnmpClient {
     return args
   }
 
-  private parseSnmpResponse(res: string): ParsedSnmpResponse {
-    const found = res.match(/(.+::.+) = (([A-Za-z0-9]+): )?(.+)/)
+  private parseResponse(res: string): RawVarbindInterface[] {
+    const regex = /.+::.+ = ([A-Za-z0-9]+: )?.+/
+    const result: RawVarbindInterface[] = []
+    let buffer = ''
+    for (const line of res.split('\n')) {
+      if (regex.test(line)) {
+        if (buffer) result.push(this.parseVarbindBuffer(buffer))
+        buffer = line
+      } else {
+        buffer = `${buffer}\n${line}`
+      }
+    }
+    if (buffer) result.push(this.parseVarbindBuffer(buffer))
+    return result
+  }
 
-    if (!found) throw new Error('Invalid SNMP response')
-
+  private parseVarbindBuffer(buffer: string): RawVarbindInterface {
+    const regex = /(.+::.+) = (([A-Za-z0-9]+): )?([^]+)/
+    const match = buffer.match(regex)
     return {
-      textualOID: found[1],
-      type: found[3] || '',
-      value: found[4],
+      oid: match[1],
+      type: match[3] || '',
+      value: match[4],
     }
   }
 }
