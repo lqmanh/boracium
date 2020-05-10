@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v1.3.0
+
+### Features
+
+- Add `SnmpClient.walk()`
+- Add `MibParser.parseRawVarbind()`
+- Improve typings
+
+### PATCHES
+
+- Fix a bug when parsing multiline varbinds
+
 ## v1.2.0
 
 ### Features
