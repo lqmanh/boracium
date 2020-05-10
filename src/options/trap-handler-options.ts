@@ -1,4 +1,8 @@
-import { TrapHandlerOptionsInterface } from '../types'
+export interface TrapHandlerOptionsInterface {
+  serverless?: boolean
+  host?: string
+  port?: number
+}
 
 export class TrapHandlerOptions implements TrapHandlerOptionsInterface {
   public readonly serverless = true

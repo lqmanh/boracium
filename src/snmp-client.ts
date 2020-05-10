@@ -1,7 +1,12 @@
 import execa from 'execa'
-import { SnmpClientOptions } from './options'
-import { SnmpClientOptionsInterface, SnmpGetBinary, VarbindInterface } from './types'
-import { parseSnmpResponse, toVarbind } from './utils'
+import {
+  SnmpClientGetWithOptions,
+  SnmpClientGetWithOptionsInterface,
+  SnmpClientOptions,
+  SnmpClientOptionsInterface,
+} from './options'
+import { ParsedSnmpResponse, SnmpGetBinary, VarbindInterface } from './types'
+import { toVarbind } from './utils'
 
 export class SnmpClient {
   private readonly options: SnmpClientOptions
@@ -22,54 +27,80 @@ export class SnmpClient {
     return this.getWith('snmpbulkget', oid)
   }
 
-  private async getWith(binary: SnmpGetBinary, oid: string): Promise<VarbindInterface[]> {
+  public walk(oid = ''): Promise<VarbindInterface[]> {
+    return this.getWith('snmpwalk', oid, { autoParse: false })
+  }
+
+  private async getWith(
+    binary: SnmpGetBinary,
+    oid: string,
+    options: SnmpClientGetWithOptionsInterface = {}
+  ): Promise<VarbindInterface[]> {
+    const { autoParse } = new SnmpClientGetWithOptions(options)
     const { stdout, stderr } = await execa(binary, this.getBinaryArgs(oid))
 
     if (stderr) throw new Error(stderr)
 
-    const varbinds = stdout.split('\n').map(
+    const varbindPromises = stdout.split('\n').map(
       (snmpRes): Promise<VarbindInterface> => {
-        const { textualOID, type, value } = parseSnmpResponse(snmpRes)
+        const { textualOID, type, value } = this.parseSnmpResponse(snmpRes)
+
+        if (!autoParse) {
+          return Promise.resolve({
+            numericOID: '',
+            textualOID,
+            fullOID: '',
+            type,
+            value,
+          })
+        }
         return toVarbind(textualOID, value, type)
       }
     )
 
-    return Promise.all(varbinds)
+    return Promise.all(varbindPromises)
   }
 
   private getBinaryArgs(oid: string): string[] {
-    const agent = `${this.options.host}:${this.options.port}`
+    const { host, port, version, community, user } = this.options
+    const agent = `${host}:${port}`
+    let args: string[]
 
-    // yes, linter is too dumb to use this.options.version !== '3'
-    if (['1', '2c'].includes(this.options.version))
-      return ['-v', this.options.version, '-c', this.options.community, agent, oid]
+    if (['1', '2c'].includes(this.options.version)) {
+      args = ['-v', version, '-c', community, agent]
+    } else {
+      args = [
+        '-v',
+        '3',
+        '-u',
+        user.username,
+        '-A',
+        user.authPassword,
+        '-a',
+        user.authProtocol,
+        '-X',
+        user.privPassword,
+        '-x',
+        user.privProtocol,
+        '-l',
+        user.securityLevel,
+        agent,
+      ]
+    }
+    if (oid) args.push(oid)
 
-    const {
-      username,
-      authPassword,
-      authProtocol,
-      privPassword,
-      privProtocol,
-      securityLevel,
-    } = this.options.user
+    return args
+  }
 
-    return [
-      '-v',
-      '3',
-      '-u',
-      username,
-      '-A',
-      authPassword,
-      '-a',
-      authProtocol,
-      '-X',
-      privPassword,
-      '-x',
-      privProtocol,
-      '-l',
-      securityLevel,
-      agent,
-      oid,
-    ]
+  private parseSnmpResponse(res: string): ParsedSnmpResponse {
+    const found = res.match(/(.+::.+) = (([A-Za-z0-9]+): )?(.+)/)
+
+    if (!found) throw new Error('Invalid SNMP response')
+
+    return {
+      textualOID: found[1],
+      type: found[3] || '',
+      value: found[4],
+    }
   }
 }

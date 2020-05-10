@@ -1,5 +1,3 @@
-import { User } from './user'
-
 export type AuthProtocol = 'MD5' | 'SHA' | 'SHA-512' | 'SHA-384' | 'SHA-256' | 'SHA-224'
 
 export type OIDFormat = 'textualOID' | 'numericOID' | 'fullOID'
@@ -14,7 +12,7 @@ export type PrivProtocol = 'DES' | 'AES'
 
 export type SecurityLevel = 'noAuthNoPriv' | 'authNoPriv' | 'authPriv'
 
-export type SnmpGetBinary = 'snmpget' | 'snmpgetnext' | 'snmpbulkget'
+export type SnmpGetBinary = 'snmpget' | 'snmpgetnext' | 'snmpbulkget' | 'snmpwalk'
 
 export type SnmpVersion = '1' | '2c' | '3'
 
@@ -46,25 +44,4 @@ export interface ParsedTrapMessage {
   }
   varbinds: VarbindInterface[]
   timestamp: Date
-}
-
-export interface SnmpClientOptionsInterface {
-  host?: string
-  port?: number
-  version?: SnmpVersion
-  community?: string
-  user?: User
-}
-
-export interface TrapHandlerOptionsInterface {
-  serverless?: boolean
-  host?: string
-  port?: number
-}
-
-export interface UserOptionsInterface {
-  authPassword?: string
-  authProtocol?: AuthProtocol
-  privPassword?: string
-  privProtocol?: PrivProtocol
 }

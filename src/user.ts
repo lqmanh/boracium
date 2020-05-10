@@ -1,5 +1,5 @@
-import { UserOptions } from './options'
-import { AuthProtocol, PrivProtocol, SecurityLevel, UserOptionsInterface } from './types'
+import { UserOptions, UserOptionsInterface } from './options'
+import { AuthProtocol, PrivProtocol, SecurityLevel } from './types'
 
 export class User {
   public readonly username: string
