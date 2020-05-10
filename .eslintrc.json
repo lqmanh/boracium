@@ -1,26 +1,19 @@
 {
   "env": {
     "es2020": true,
-    "es6": true,
     "node": true
   },
-  "extends": ["plugin:prettier/recommended", "eslint:recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "impliedStrict": true
-    },
-    "ecmaVersion": 2020
-  },
-  "overrides": [
-    {
-      "files": ["**/*.ts"],
-      "parser": "@typescript-eslint/parser",
-      "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "prettier/@typescript-eslint",
-        "eslint:recommended",
-        "plugin:prettier/recommended"
-      ]
     }
-  ]
+  }
 }
