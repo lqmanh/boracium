@@ -29,7 +29,7 @@ export class SnmpClient {
   }
 
   public walk(oid = ''): Promise<VarbindInterface[]> {
-    return this.getWith('snmpwalk', oid, { autoParse: false })
+    return this.getWith('snmpbulkwalk', oid, { autoParse: false })
   }
 
   private async getWith(

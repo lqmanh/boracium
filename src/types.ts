@@ -6,7 +6,12 @@ export type PrivProtocol = 'DES' | 'AES'
 
 export type SecurityLevel = 'noAuthNoPriv' | 'authNoPriv' | 'authPriv'
 
-export type SnmpGetBinary = 'snmpget' | 'snmpgetnext' | 'snmpbulkget' | 'snmpwalk'
+export type SnmpGetBinary =
+  | 'snmpget'
+  | 'snmpgetnext'
+  | 'snmpbulkget'
+  | 'snmpwalk'
+  | 'snmpbulkwalk'
 
 export type SnmpVersion = '1' | '2c' | '3'
 

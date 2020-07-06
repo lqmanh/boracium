@@ -105,6 +105,3 @@ dist
 
 # Lock files
 *.lock
-
-# Tests
-tests
